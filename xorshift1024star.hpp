@@ -3,6 +3,7 @@
 #pragma once
 
 #include <cstdint>
+#include <algorithm>
 #include <utility>
 
 namespace OTI
@@ -22,9 +23,9 @@ namespace OTI
         public: static constexpr result_type  mult  = 1181783497276652981ULL;
 
         public: static constexpr seed_type    default_seed[] = { 3001ULL, 3079ULL, 3257ULL, 3511ULL,
-                                                                 4001ULL, 4057ULL, 4507ULL, 4583ULL,
-                                                                 5003ULL, 5281ULL, 5861ULL, 5987ULL,
-                                                                 6007ULL, 6229ULL, 6301ULL, 7901ULL };
+                                                                4001ULL, 4057ULL, 4507ULL, 4583ULL,
+                                                                5003ULL, 5281ULL, 5861ULL, 5987ULL,
+                                                                6007ULL, 6229ULL, 6301ULL, 7901ULL };
 
         public: static constexpr float        norm  = float{double{1.0}/double{result_type{-1LL}}};
 #pragma endregion
@@ -42,15 +43,15 @@ namespace OTI
         }
 
         public: xorshift1024star(xorshift1024star const& r):
-            xorshift1024star{r._seed},
-            _p{r._p}
+            xorshift1024star{r._seed}
         {
+            _p = r._p;
         }
 
         public: xorshift1024star(xorshift1024star&& r):
-            xorshift1024star{r._seed},
-            _p{r._p}
+            xorshift1024star{r._seed}
         {
+            _p = r._p;
         }        
 
         public: xorshift1024star& operator=(xorshift1024star const& r)
@@ -87,7 +88,7 @@ namespace OTI
 #pragma region Mutators
         public: result_type sample() const
         {
-            uint64_t s0 = seed[ _p ];
+            uint64_t s0 = _seed[ _p ];
             _p = ( _p + 1 ) & 15;
             uint64_t s1 = _seed[ _p ];
 

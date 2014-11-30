@@ -13,7 +13,7 @@ static uint64_t find_period(uint64_t N, std::ostream& os)
     constexpr uint32_t BILLION = 1024U*1024U*1024U;
 
     OTI::xorshift1024star rng;
-    OTI::xorshift1024star::seed_type the_seed = rng.seed();
+    const OTI::xorshift1024star::seed_type* the_seed = rng.seed();
 
     N /= BILLION; // number of billions
 
@@ -22,7 +22,7 @@ static uint64_t find_period(uint64_t N, std::ostream& os)
         for( uint32_t k = 0U; k != BILLION; ++k)
         {
             rng.sample();
-            if (rng.seed() == the_seed)
+            if (std::equal( the_seed,  the_seed+16, rng.seed()))
             {
                 return i*BILLION + uint64_t(k);
             }
@@ -91,11 +91,11 @@ static bool test_skip_zero()
 {
     OTI::xorshift1024star rng;
 
-    OTI::xorshift1024star::seed_type the_seed = rng.seed();
+    const OTI::xorshift1024star::seed_type* the_seed = rng.seed();
 
     rng.skip(0LL);
 
-    return (rng.seed() == the_seed);
+    return std::equal(the_seed, the_seed+16, rng.seed());
 }
 
 
