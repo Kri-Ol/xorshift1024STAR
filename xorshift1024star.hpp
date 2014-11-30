@@ -22,10 +22,10 @@ namespace OTI
 
         public: static constexpr result_type  mult  = 1181783497276652981ULL;
 
-        public: static constexpr seed_type    default_seed[] = { 3001ULL, 3079ULL, 3257ULL, 3511ULL,
-                                                                4001ULL, 4057ULL, 4507ULL, 4583ULL,
-                                                                5003ULL, 5281ULL, 5861ULL, 5987ULL,
-                                                                6007ULL, 6229ULL, 6301ULL, 7901ULL };
+        public: static constexpr seed_type    default_seed[] { 3001ULL, 3079ULL, 3257ULL, 3511ULL,
+                                                               4001ULL, 4057ULL, 4507ULL, 4583ULL,
+                                                               5003ULL, 5281ULL, 5861ULL, 5987ULL,
+                                                               6007ULL, 6229ULL, 6301ULL, 7901ULL };
 
         public: static constexpr float        norm  = float{double{1.0}/double{result_type{-1LL}}};
 #pragma endregion

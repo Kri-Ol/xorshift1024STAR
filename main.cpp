@@ -84,7 +84,7 @@ static bool test_skip_ahead(int64_t ns)
     }
 
     // compare manual and fast skip
-    return (rng.seed() == rngs.seed());
+    return std::equal(rng.seed(), rng.seed()+16, rngs.seed());
 }
 
 static bool test_skip_zero()
