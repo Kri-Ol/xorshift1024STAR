@@ -6,14 +6,14 @@
 
 #include <iostream>
 
-#include "xorshift64star.hpp"
+#include "xorshift1024star.hpp"
 
 static uint64_t find_period(uint64_t N, std::ostream& os)
 {
     constexpr uint32_t BILLION = 1024U*1024U*1024U;
 
-    OTI::xorshift64star rng;
-    OTI::xorshift64star::seed_type the_seed = rng.seed();
+    OTI::xorshift1024star rng;
+    OTI::xorshift1024star::seed_type the_seed = rng.seed();
 
     N /= BILLION; // number of billions
 
@@ -47,7 +47,7 @@ static std::pair<float,float> test_mean_sigma(uint64_t n)
     std::pair<float,float> s{0.0, 0.0};
     std::pair<float,float> d{0.0, 0.0};
 
-    OTI::xorshift64star rng;
+    OTI::xorshift1024star rng;
 
     for(uint64_t k = 0; k != n; ++k)
     {
@@ -72,8 +72,8 @@ static bool test_skip_ahead(int64_t ns)
 {
     assert( ns > 0LL);
 
-    OTI::xorshift64star rng;
-    OTI::xorshift64star rngs{rng};
+    OTI::xorshift1024star rng;
+    OTI::xorshift1024star rngs{rng};
 
     rngs.skip(ns);
 
@@ -89,9 +89,9 @@ static bool test_skip_ahead(int64_t ns)
 
 static bool test_skip_zero()
 {
-    OTI::xorshift64star rng;
+    OTI::xorshift1024star rng;
 
-    OTI::xorshift64star::seed_type the_seed = rng.seed();
+    OTI::xorshift1024star::seed_type the_seed = rng.seed();
 
     rng.skip(0LL);
 
@@ -101,7 +101,7 @@ static bool test_skip_zero()
 
 int main(int argc, char* argv[])
 {
-    OTI::xorshift64star::result_type period = find_period(2500000000ULL, std::cout); 
+    OTI::xorshift1024star::result_type period = find_period(2500000000ULL, std::cout); 
     std::cout << "Found period: " << period << std::endl;
 
     std::pair<float,float> r = test_mean_sigma(50000000ULL);
