@@ -4,15 +4,15 @@
 
 #include <cstdint>
 #include <algorithm>
-#include <utility>
+#include <limits>
 
 namespace OTI
 {
     class xorshift1024star
     {
 #pragma region Typedefs/Constants
-        public: typedef uint_fast64_t result_type;
-        public: typedef result_type   seed_type;
+        public: using result_type = unsigned long long;
+        public: using seed_type   = unsigned long long;
 
         // those values are from S.Vigna "An experimental exploration of Marsaglia's xorshift generators, scrambled",
         // http://arxiv.org/abs/1402.6246, known as M(31,11,30) with scrambling
@@ -22,12 +22,9 @@ namespace OTI
 
         public: static constexpr result_type  mult  = 1181783497276652981ULL;
 
-        public: static constexpr seed_type    default_seed[] { 3001ULL, 3079ULL, 3257ULL, 3511ULL,
-                                                               4001ULL, 4057ULL, 4507ULL, 4583ULL,
-                                                               5003ULL, 5281ULL, 5861ULL, 5987ULL,
-                                                               6007ULL, 6229ULL, 6301ULL, 7901ULL };
+        public: static constexpr float        norm  = float{double{1.0}/double(std::numeric_limits<result_type>::max())}; // narrowing conversion
 
-        public: static constexpr float        norm  = float{double{1.0}/double{result_type{-1LL}}};
+        public: static const seed_type default_seed[];
 #pragma endregion
 
 #pragma region Data
@@ -52,7 +49,7 @@ namespace OTI
             xorshift1024star{r._seed}
         {
             _p = r._p;
-        }        
+        }
 
         public: xorshift1024star& operator=(xorshift1024star const& r)
         {
@@ -105,5 +102,5 @@ namespace OTI
 
         public: void skip(uint64_t ns) const;
 #pragma endregion
-    };    
+    };
 }
