@@ -39,7 +39,7 @@ namespace OTI
         {
         }
 
-        public: xorshift1024star(xorshift1024star const& r):
+        public: xorshift1024star(const xorshift1024star& r):
             xorshift1024star{r._seed}
         {
             _p = r._p;
@@ -51,7 +51,7 @@ namespace OTI
             _p = r._p;
         }
 
-        public: xorshift1024star& operator=(xorshift1024star const& r)
+        public: xorshift1024star& operator=(const xorshift1024star& r)
         {
             std::copy(r._seed, r._seed + 16, _seed);
             _p = r._p;
@@ -85,9 +85,9 @@ namespace OTI
 #pragma region Mutators
         public: result_type sample() const
         {
-            uint64_t s0 = _seed[ _p ];
+            auto s0 = _seed[ _p ];
             _p = ( _p + 1 ) & 15;
-            uint64_t s1 = _seed[ _p ];
+            auto s1 = _seed[ _p ];
 
             s1 ^= s1 << shift_a;
             s1 ^= s1 >> shift_b;
